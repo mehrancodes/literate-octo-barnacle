@@ -1,34 +1,28 @@
-// https://aka.ms/devcontainer.json
 {
-	"name": "Existing Docker Compose (Extend)",
-	"dockerComposeFile": [
-		"../docker-compose.yml"
-	],
-	"service": "laravel.test",
-	"workspaceFolder": "/var/www/html",
-	"customizations": {
-		"vscode": {
-			"extensions": [
-				// "mikestead.dotenv",
-				// "amiralizadeh9480.laravel-extra-intellisense",
-				// "ryannaddy.laravel-artisan",
-				// "onecentlin.laravel5-snippets",
-				// "onecentlin.laravel-blade"
-
-				// "bmewburn.vscode-intelephense-client"
-				// "ms-azuretools.vscode-docker"
-				// "ecmel.vscode-html-css"
-				// "MehediDracula.php-namespace-resolver"
-				// "Equinusocio.vsc-community-material-theme"
-				// "EditorConfig.EditorConfig"
-				// "streetsidesoftware.code-spell-checker"
-			],
-			"settings": {}
-		}
-	},
-	"remoteUser": "sail",
-	"postCreateCommand": "chown -R 1000:1000 /var/www/html 2>/dev/null || true"
-	// "forwardPorts": [],
-	// "runServices": [],
-	// "shutdownAction": "none",
+  "name": "laravel dev container",
+  "dockerComposeFile": "docker-compose.yml",
+  "service": "app",
+  "workspaceFolder": "/workspace",
+  "postCreateCommand": "/bin/bash ./.devcontainer/postCreateCommand.sh",
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "ecodes.vscode-phpmd",
+        "bmewburn.vscode-intelephense-client",
+        "shevaua.phpcs"
+      ],
+      "settings": {
+        "editor.tabSize": 4,
+        "files.insertFinalNewline": true,
+        "intelephense.diagnostics.undefinedTypes": false,
+        "phpcs.composerJsonPath": "./src/composer.json",
+        "phpcs.executablePath": "./src/vendor/bin/phpcs",
+        "phpmd.command": "./src/vendor/bin/phpmd",
+        "phpmd.rules": "./src/phpmd.xml",
+        // テスト実行時にターミナルに吐かれるlocalhost:3000を検知して3000が自動でフォワードされるのを防ぐ
+        // php artisan serve は8000で起動するがそのポートフォワードはcomposeファイルで設定しているためautoは不要
+        "remote.autoForwardPorts": false
+      }
+    }
+  }
 }
